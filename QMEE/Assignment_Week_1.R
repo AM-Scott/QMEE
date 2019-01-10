@@ -1,5 +1,7 @@
 ## QMEE Assignment 1
 
+# Working directory should be automatically set to project directory
+
 library(tidyverse)
 
 # Load in sociability selection data through 8 generations
@@ -9,15 +11,15 @@ soc.data <- read_csv("Sociability_selection_data_after_gen_8.csv")
 str(soc.data)
 head(soc.data)
 
-# Calculate the mean Aggregation Index (AI) and standard deviation for the 2 treatments across generations (U=Up selection, D=Down selection)
+# Calculate the mean Aggregation Index (AI) and standard error of the mean for the 2 treatments across generations (U=Up selection, D=Down selection)
 summarized.soc.data <- soc.data %>%
   group_by(Generation, Treatment, Sex) %>%
   summarise(mean_AI = mean(AI),
-            sd_AI = sd(AI))
+            sem_AI = (sd(AI)/sqrt(48))) # always 48 replicates per sex/treatment/generation
 
 print(summarized.soc.data)
 
-# Just looking at the first and last generations to better compare the divergence at gen 8 to the starting means
+# Just look at the first and last generations to better compare the divergence at gen 8 to the starting means
 gens.1.and.8 <- filter(summarized.soc.data, Generation %in% c(1,8))
 
 print(gens.1.and.8)
