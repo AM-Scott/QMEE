@@ -11,7 +11,7 @@ soc.data <- read_csv("Sociability_selection_data_after_gen_8.csv")
 str(soc.data)
 head(soc.data)
 
-# Calculate the mean Aggregation Index (AI) and standard error of the mean for the 2 treatments across generations (U=Up selection, D=Down selection)
+# Calculate the mean Aggregation Index (AI) and standard error of the mean for the 2 treatments (U=Up selection, D=Down selection) across sexes and generations
 summarized.soc.data <- soc.data %>%
   group_by(Generation, Treatment, Sex) %>%
   summarise(mean_AI = mean(AI),
