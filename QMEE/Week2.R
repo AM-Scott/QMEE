@@ -37,3 +37,13 @@ sdat2 <- sdat %>%
   full_join(popdat,by="Place") 
 
 ### GO OVER THIS STUFF BEFORE WEDNESDAY...
+
+###########################################
+# Wednesday lecture - Jonathan's cleaning data lecture
+
+# just going with the cleaning lecture
+
+
+
+
+
