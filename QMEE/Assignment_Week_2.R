@@ -4,21 +4,44 @@ library(tidyverse)
 
 soc.data <- read_csv("data/Sociability_Raw_Data.csv")
 
+# examine data structure
 str(soc.data)
 # head(soc.data)
 
+# make block, lineage, generation and sex factors
 soc.data <- soc.data %>% 
   mutate(Block = as.factor(Block)) %>%
   mutate(Lineage = as.factor(Lineage)) %>%
-  mutate(Sex = as.factor(Sex))
+  mutate(Sex = as.factor(Sex)) %>%
+  mutate(Generation = as.factor(Generation))
+
+# Summarize counts for each observation (vars Q1-Q8) into a single aggregation index (AI) variable
+soc.data <- soc.data %>%
+  rowwise() %>% # allow for row-by-row operations
+  mutate(AI = var(c(Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8))/mean(c(Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8))) %>%
+  ungroup() # remove rowwise
 
 # Make a new factor "treatment" with 3 levels corresponding to direction of selection (U, D, C)
-
 soc.data <- soc.data %>%
   mutate(Treatment = as.factor(str_extract(Lineage, "^.{1}"))) # The treatment is located in the first letter of the Lineage string
-  
+
 # Should be 3 levels - check
 levels(soc.data$Treatment)
-  
-# Check for errors? - Make a table to see if the Ns match what you think they should?
-# Calculate AI
+
+# make a list to examine the data for mistakes
+soc.check <- soc.data %>%
+        filter(Treatment %in% c("U", "D")) %>% # Just looking at the down and up for now
+        group_by(Generation, Sex, Lineage) %>%
+        summarize(count = n())
+    
+print(soc.check, n = 128)
+
+# Should be n=12 for every lineage/sex combination - do a check:
+soc.check %>% filter(count != 12)
+
+# make a few plots to check the data for errors/anomalies
+hist(soc.data$AI)
+
+pairs(soc.data[,-c(2,3,6:13)])
+
+
