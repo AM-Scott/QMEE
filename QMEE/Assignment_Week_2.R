@@ -15,11 +15,14 @@ soc.data <- soc.data %>%
   mutate(Sex = as.factor(Sex)) %>%
   mutate(Generation = as.factor(Generation))
 
-# Summarize counts for each observation (vars Q1-Q8) into a single aggregation index (AI) variable
+# Summarize counts for each observation (vars Q1-Q8) into a single aggregation index (AI) dependent variable
 soc.data <- soc.data %>%
   rowwise() %>% # allow for row-by-row operations
   mutate(AI = var(c(Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8))/mean(c(Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8))) %>%
   ungroup() # remove rowwise
+
+# Min and max AI should be within 0-16: do a check
+print(c(min(soc.data$AI), max(soc.data$AI)))
 
 # Make a new factor "treatment" with 3 levels corresponding to direction of selection (U, D, C)
 soc.data <- soc.data %>%
@@ -40,8 +43,8 @@ print(soc.check, n = 128)
 soc.check %>% filter(count != 12)
 
 # make a few plots to check the data for errors/anomalies
-hist(soc.data$AI)
+hist(soc.data$AI, breaks = 24) # looks typical for AI data we have used in the past - positive skew
 
-pairs(soc.data[,-c(2,3,6:13)])
+pairs(soc.data[,-c(2,3,6:13)]) # all the categorical variables match up the way I expect, and no major outliers when plotting AI against other variables
 
 
