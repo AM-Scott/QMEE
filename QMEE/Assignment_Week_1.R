@@ -17,9 +17,15 @@ summarized.soc.data <- soc.data %>%
   summarise(mean_AI = mean(AI),
             sem_AI = (sd(AI)/sqrt(48))) # always 48 replicates per sex/treatment/generation
 
+## JD: Still better not to have 48 hiding in your code. You can always get the right answer by counting:
+## sem_BI = (sd(AI)/sqrt(n()))
+
 print(summarized.soc.data)
 
 # Just look at the first and last generations to better compare the divergence at gen 8 to the starting means
 gens.1.and.8 <- filter(summarized.soc.data, Generation %in% c(1,8))
 
 print(gens.1.and.8)
+
+## JD: score 2. (1=poor, 2=fine, 3=excellent)
+
