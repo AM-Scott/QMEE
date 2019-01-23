@@ -13,8 +13,7 @@ soc.data <- read_csv("data/Sociability_Raw_Data.csv")
 soc.data <- soc.data %>% 
   mutate(Block = as.factor(Block)) %>%
   mutate(Lineage = as.factor(Lineage)) %>%
-  mutate(Sex = as.factor(Sex)) %>%
-  mutate(Generation = as.factor(Generation))
+  mutate(Sex = as.factor(Sex))
 
 ## BMB: you don't need to use separate mutate statements:
 ##  can be comma-separated, or ...
