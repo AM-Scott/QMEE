@@ -57,13 +57,14 @@ soc.check <- soc.data %>%
     
 print(soc.check, n = 128)
 
-## BMB: could  spread() or
+## BMB: could  spread() or use table():
 
 (tt <- with(filter(soc.data,Treatment != "C"),
      table(Sex, Lineage, Generation)))
 # Should be n=12 for every lineage/sex combination - do a check:
 soc.check %>% filter(count != 12)
 
+## BMB: or
 stopifnot(all(tt %in% c(0,12)))
 
 # make a few plots to check the data for errors/anomalies
@@ -77,6 +78,7 @@ ggpairs(soc.data[,-c(2,3,6:13)])
 
 ## BMB: 2.5 (1=poor, 2=fine, 3=excellent)
 
+## a fancier plot ...
 library(ggplot2)
 theme_set(theme_bw())
 ggplot(soc.data,aes(Generation,AI,colour=Treatment))+
