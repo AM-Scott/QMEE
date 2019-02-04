@@ -2,7 +2,8 @@
 
 library(tidyverse)
 
-soc.data <- read_csv("data/Sociability_Raw_Data.csv")
+## JD: If you're sharing your code, you need to watch out for capitalization inconsistenices
+soc.data <- read_csv("Data/Sociability_Raw_Data.csv")
 
 # make block, lineage, generation and sex factors
 soc.data <- soc.data %>%
@@ -73,7 +74,7 @@ soc.plot.2 <- ggplot(data = summarized.soc.data.2,
                          y = mean_AI,
                          colour = Treatment,
                          line = Lineage)) + 
-  scale_colour_manual(values = c("gray50", "steelblue2", "red2")) + #change colours to distinguish the treatments a bit better
+  scale_colour_manual(values = c("gray20", "steelblue2", "red2")) + #change colours to distinguish the treatments a bit better
   geom_line(size = 0.5) +
   geom_point(size = 1, position = position_dodge(width = 0.1)) +
   facet_grid(rows = vars(Sex), 
@@ -88,4 +89,8 @@ soc.plot.2 <- ggplot(data = summarized.soc.data.2,
 
 print(soc.plot.2)
 
+## JD: Good explanations. Sorry I don't know any answers about facet labelling. We'll come back to it if it turns out to be important
+## Thanks for trying with the colors; you can also look into brewer colors
+## I changed your colors a bit, also
 
+## Good (2/3)
