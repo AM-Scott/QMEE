@@ -10,6 +10,7 @@ First, let’s assume there are 1000 people in this population.
 
 Of the 60 total positive tests, only 10 people actually have MMV. So a random person’s probability of actually having MMV given that they tested positive is only 10/60 or 16.66%. 
 
+**BMB**: this is a very sensible way of solving this question.  Good for you for saying "approximately" (you could have calculated `10/(10+0.05*990)= 0.168`). Approximation is fine in this context. However, if you're going to do that then you probably *shouldn't* quote the percentage to 2 decimal places (i.e. just say "approximately 17%).
 
 Part II:
 You learn that your friend has a positive test for MMV. What do you tell them?
@@ -20,3 +21,4 @@ If the situation is the former, we can safely assume that they were effectively 
 
 If the situation is the latter, their prior probability of having MMV may be higher than the baseline 1% as we have some additional information that could point toward MMV in addition to the positive test. In this case, we would say that their probability of having MMV is higher than the “random-person” 17%, and they should get it checked out and monitored more closely.
 
+**BMB**: good, you covered all of the issues I'm aware of!
