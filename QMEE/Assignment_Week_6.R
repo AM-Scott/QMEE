@@ -15,7 +15,7 @@ soc.data <- soc.data %>%
   gather(key=Q,value=score,Q1:Q8) %>%
   group_by(Generation,Block,Dish,Lineage,Sex) %>%
   summarise(AI=var(score)/mean(score)) %>%
-  full_join(soc.data)
+  full_join(soc.data) ## BMB: might want to specify by=() explicitly
 
 soc.data <- soc.data %>%
   ungroup() %>%
