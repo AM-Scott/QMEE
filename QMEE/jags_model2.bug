@@ -1,0 +1,12 @@
+model {
+  for(i in 1:N) {
+    pred[i] <- inprod(beta[], X[i,])
+    prec[i] <- tau
+    logAI[i] ~ dnorm(pred[i], prec[i])
+  }
+  # priors
+  for(i in 1:P) {
+    beta[i] ~ dnorm(0, 0.01)
+  }
+  tau ~ dgamma(0.001, 0.001)
+}

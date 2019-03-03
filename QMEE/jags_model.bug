@@ -1,0 +1,16 @@
+model {
+  for(i in 1:N) {
+    TrtEffect[i] <- b_Trt*(Treatment[i] - 1) ## factor w 2 levels
+    GenEffect[i] <- b_Gen*(Generation[i]) ## numerical var
+    SexEffect[i] <- b_Sex*(Sex[i] - 1) ## factor w 2 levels
+    pred[i] <- TrtEffect[i] + GenEffect[i] + SexEffect[i] + b_0
+    prec[i] <- tau
+    logAI[i] ~ dnorm(pred[i], prec[i])
+  }
+  # priors
+  b_Trt ~ dnorm(0, 0.01)
+  b_Gen ~ dnorm(0, 0.01)
+  b_Sex ~ dnorm(0, 0.01)
+  b_0 ~ dnorm(0, 0.01)
+  tau ~ dgamma(0.001, 0.001)
+}
