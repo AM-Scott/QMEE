@@ -23,6 +23,10 @@ soc.data <- soc.data %>%
   mutate(Treatment = as.factor(str_sub(Lineage, 1,1))) %>%
   filter(Treatment != "C")
 
+## BMB: this cleanup is fine, but you should consider writing a separate script
+## and using it to save an rda or rds file (so you don't have to keep copying
+## the code to new HWs)
+
 ### Comparison of Linear model of log tranformed data vs GLM with gamma distribution
 
 lm.1 <- lm(log(AI) ~ 1 + Treatment*Sex*Generation + Block + Dish, data = soc.data)
@@ -41,6 +45,11 @@ summary(glm.1)
 ### and generation effects are clear in both, the effects are in the same direction, etc.
 ### (I believe the estimates are directly comparable as the lm is on the log scale, 
 ### and the effect scale of the glm is also on the log scale.)
+## BMB: yes, that's right
+
+## also:
+library(dotwhisker)
+dwplot(list(lm=lm.1,glm=glm.1))+geom_vline(xintercept=0,lty=2)
 
 par(mfrow = c(2,2))
 
@@ -58,3 +67,4 @@ plot(glm.1)
 ### may be more important than subtle differences at the upper end of the social scale
 ### (where a small change to super-social groupings is not as meaningful)).
 
+## BMB: good.  score 2.5
