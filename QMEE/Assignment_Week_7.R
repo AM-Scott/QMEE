@@ -5,7 +5,8 @@ library(R2jags)
 
 ### Cleaning up/preparing data
 
-soc.data <- read_csv("data/Sociability_Raw_Data.csv")
+## JD: Be careful about capitaLization
+soc.data <- read_csv("Data/Sociability_Raw_Data.csv")
 
 soc.data <- soc.data %>%
   mutate_at(vars(Block,Lineage,Sex),factor)
@@ -40,6 +41,10 @@ lm.2 <- lm(logAI ~ Treatment*Generation*Sex, data = soc.data)
 ### There isn't any other information about the parameters, so I have set them to be normal and flat
 ### One question I have is whether it is useful to specify that the data are bounded in the priors (i.e. "logAI" is bounded at -inf, 2.77)? I'm not sure how to specify this in the priors.
 
+## JD: Not sure what you mean by "flat" here, but this all looks fine.
+## I don't really understand why you want to bound logAI;
+## I don't think that the kind of bound you are thinking of would affect your answer
+
 soc.data$Sex <- as.numeric(soc.data$Sex)
 soc.data$Block <- as.numeric(soc.data$Block)
 
@@ -71,6 +76,8 @@ summary(lm.1)
 
 ### Bayesian model 2 - using model.matrix to include all the main effects and interactions that I want.
 
+### JD: This is a really nice approach. Not sure there's so much variation
+### JD: I added traceplots. They are fine.
 X <- model.matrix(~Treatment*Generation*Sex, data = soc.data)
 P <- ncol(X)
 
@@ -85,9 +92,13 @@ soc.bayesmod_2 <- with(soc.data, jags(model.file = 'jags_model2.bug',
                                       inits = NULL))
 
 plot(soc.bayesmod_2)
+traceplot(soc.bayesmod_2)
 print(soc.bayesmod_2)
 colnames(X) # so we know what each coefficient corresponds to
 summary(lm.2)
 
 ### For this second model, I think something is going wrong, as the standard deviations around the 
 ### Bayes model estimates are massive. I'm not sure how to fix it at this point...
+
+## JD: Mark 2/3 (good)
+## JD: If you're interested, the next thing to try is to do the original model with model.matrix (to make sure that you did all the coding right).
