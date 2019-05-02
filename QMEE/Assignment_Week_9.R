@@ -5,7 +5,8 @@ library(lme4)
 
 ### Cleaning up/preparing data
 
-soc.data <- read_csv("data/Sociability_Raw_Data.csv")
+## JD: watch filename case for reproducibility
+soc.data <- read_csv("Data/Sociability_Raw_Data.csv")
 
 soc.data <- soc.data %>%
   mutate_at(vars(Block,Lineage,Sex),factor)
@@ -38,6 +39,8 @@ lme.1 <- lmer(log(AI) ~ 1 + Sex*Generation*Treatment +
 ### 1 selection treatment. Interestingly, it appears to give exactly the same answers in summary 
 ### as a model that does not specify this nesting structure (i.e. if I put (1 + Sex + Generation | Lineage),
 ### so I'm wondering if specifying this nesting within a fixed factor is redundant?
+### JD: It is necessary to specify nesting when R might otherwise get confused
+### e.g., when Cage 1 mouse 1 has nothing in common with Cage 2 mouse 1
 
 ### For the maximal model, I can include a random intercept and random slopes of Sex and Generation for lineage
 ### (this will show how the lineages vary in social score differences between the sexes, and how much the lineages
@@ -77,3 +80,4 @@ summary(lme.2)
 ### lineages with larger intercept (baseline score) tend to have a smaller slope (
 ### low change in soc score over generations?))
 
+## Grade 2.4/3 Very good
